@@ -27,6 +27,7 @@ import ceui.lisa.models.NovelSearchResponse;
 import ceui.lisa.models.NullResponse;
 import ceui.lisa.models.Preset;
 import ceui.lisa.models.UserDetailResponse;
+import ceui.lisa.models.UserFollowDetail;
 import ceui.lisa.models.UserState;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -108,17 +109,26 @@ public interface AppApi {
      * search_target=exact_match_for_tags 标签完全匹配
      * search_target=partial_match_for_tags 标签部分匹配
      * search_target=title_and_caption 标题或简介
+     * start_date 开始时间
+     * end_date 结束时间
      */
     @GET("v1/search/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true")
     Observable<ListIllust> searchIllust(@Header("Authorization") String token,
                                         @Query("word") String word,
                                         @Query("sort") String sort,
+                                        @Query("start_date") String startDate,
+                                        @Query("end_date") String endDate,
                                         @Query("search_target") String search_target);
 
+    /**
+     * search_target=exact_match_for_tags,partial_match_for_tags,text(文本),keyword(关键词)
+     */
     @GET("v1/search/novel?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true")
     Observable<ListNovel> searchNovel(@Header("Authorization") String token,
                                       @Query("word") String word,
                                       @Query("sort") String sort,
+                                      @Query("start_date") String startDate,
+                                      @Query("end_date") String endDate,
                                       @Query("search_target") String search_target);
 
 
@@ -201,6 +211,10 @@ public interface AppApi {
     @POST("v1/user/follow/delete")
     Observable<NullResponse> postUnFollow(@Header("Authorization") String token,
                                           @Field("user_id") int user_id);
+
+    @GET("v1/user/follow/detail")
+    Observable<UserFollowDetail> getFollowDetail(@Header("Authorization") String token,
+                                                 @Query("user_id") int user_id);
 
 
     /**
@@ -286,9 +300,12 @@ public interface AppApi {
                                     @Query("word") String word);
 
 
-    @GET("v1/search/popular-preview/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true&search_target=exact_match_for_tags")
+    @GET("v1/search/popular-preview/illust?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true")
     Observable<ListIllust> popularPreview(@Header("Authorization") String token,
-                                          @Query("word") String word);
+                                          @Query("word") String word,
+                                          @Query("start_date") String startDate,
+                                          @Query("end_date") String endDate,
+                                          @Query("search_target") String search_target);
 
     @GET("v1/search/popular-preview/novel?filter=for_android&include_translated_tag_results=true&merge_plain_keyword_results=true&search_target=exact_match_for_tags")
     Observable<ListNovel> popularNovelPreview(@Header("Authorization") String token,

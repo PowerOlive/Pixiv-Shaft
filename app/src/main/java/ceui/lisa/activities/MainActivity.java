@@ -39,6 +39,7 @@ import ceui.lisa.fragments.FragmentLeft;
 import ceui.lisa.fragments.FragmentRight;
 import ceui.lisa.fragments.FragmentViewPager;
 import ceui.lisa.helper.DrawerLayoutHelper;
+import ceui.lisa.jetpack.NavActivity;
 import ceui.lisa.utils.Common;
 import ceui.lisa.utils.Dev;
 import ceui.lisa.utils.GlideUtil;
@@ -84,6 +85,16 @@ public class MainActivity extends BaseActivity<ActivityCoverBinding>
             @Override
             public void onClick(View v) {
                 Common.showUser(mContext, sUserModel);
+                baseBind.drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+        userHead.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                boolean filterEnable = Shaft.sSettings.isR18FilterTempEnable();
+                Shaft.sSettings.setR18FilterTempEnable(!filterEnable);
+                Common.showToast(filterEnable ? "ԅ(♡﹃♡ԅ)" : "X﹏X");
+                return true;
             }
         });
         baseBind.navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -197,6 +208,7 @@ public class MainActivity extends BaseActivity<ActivityCoverBinding>
                 return baseFragments.length;
             }
         });
+        baseBind.viewPager.setOffscreenPageLimit(baseFragments.length - 1);
         Manager.get().restore(mContext);
     }
 
@@ -417,10 +429,9 @@ public class MainActivity extends BaseActivity<ActivityCoverBinding>
             Dev.refreshUser = false;
         }
 
-//        if (Dev.isDev) {
-//            Intent intent = new Intent(mContext, TemplateActivity.class);
-//            intent.putExtra(TemplateActivity.EXTRA_FRAGMENT, "测试测试");
-//            startActivity(intent);
-//        }
+        if (Dev.isDev) {
+            Intent intent = new Intent(mContext, NavActivity.class);
+            startActivity(intent);
+        }
     }
 }

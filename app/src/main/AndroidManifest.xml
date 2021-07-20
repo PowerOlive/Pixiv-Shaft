@@ -25,7 +25,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/logo_final_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true">
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -92,6 +93,8 @@
                 <data android:pathPrefix="/users/"/>
                 <data android:pathPrefix="/en/users/"/>
                 <data android:pathPrefix="/i/"/>
+                <data android:pathPrefix="/u/"/>
+                <data android:pathPrefix="/n/"/>
 
             </intent-filter>
 
@@ -103,8 +106,8 @@
 
                 <data android:scheme="http" />
                 <data android:scheme="https" />
+
                 <data android:host="i.pximg.net" />
-
             </intent-filter>
 
             <intent-filter android:autoVerify="true">
@@ -115,9 +118,9 @@
 
                 <data android:scheme="http" />
                 <data android:scheme="https" />
+
                 <data android:host="www.pixiv.me" />
                 <data android:host="pixiv.me" />
-
             </intent-filter>
 
             <intent-filter android:autoVerify="true">
@@ -136,6 +139,18 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="shaftintent" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+
+                <data android:host="www.pixivision.net" />
             </intent-filter>
         </activity>
 
@@ -168,6 +183,7 @@
         </activity>
         <activity android:name=".activities.VPActivity" />
         <activity android:name=".activities.NovelActivity" />
+        <activity android:name=".jetpack.NavActivity" />
 
     </application>
 

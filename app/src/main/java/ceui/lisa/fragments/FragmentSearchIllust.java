@@ -12,6 +12,7 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import ceui.lisa.R;
 import ceui.lisa.adapters.BaseAdapter;
 import ceui.lisa.adapters.IAdapter;
 import ceui.lisa.core.BaseRepo;
@@ -38,6 +39,11 @@ public class FragmentSearchIllust extends NetListFragment<FragmentBaseListBindin
     }
 
     @Override
+    public void initLayout() {
+        mLayoutID = R.layout.fragment_base_list;
+    }
+
+    @Override
     public void initModel() {
         searchModel = new ViewModelProvider(requireActivity()).get(SearchModel.class);
         super.initModel();
@@ -53,11 +59,11 @@ public class FragmentSearchIllust extends NetListFragment<FragmentBaseListBindin
                     return;
                 }
                 ((SearchIllustRepo) mRemoteRepo).update(searchModel, isPopular);
-                if(isPopular){
-                    if(TextUtils.isEmpty(searchModel.getKeyword().getValue())){
+                if (isPopular) {
+                    if (TextUtils.isEmpty(searchModel.getKeyword().getValue())) {
                         mRefreshLayout.setEnableRefresh(false);
                         return;
-                    }else{
+                    } else {
                         mRefreshLayout.setEnableRefresh(true);
                     }
                 }
@@ -96,7 +102,9 @@ public class FragmentSearchIllust extends NetListFragment<FragmentBaseListBindin
                 searchModel.getSortType().getValue(),
                 searchModel.getSearchType().getValue(),
                 searchModel.getStarSize().getValue(),
-                isPopular
+                isPopular,
+                searchModel.getStartDate().getValue(),
+                searchModel.getEndDate().getValue()
         );
     }
 
